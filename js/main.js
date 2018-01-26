@@ -43,13 +43,13 @@ function ProcessScroll() {
 
     if (pageYOffset < 1700) {
 
-        ProcessScroll.frontMountain.style.transform = 'translateZ(' + pageYOffset / 14 + 'px)';
+        ProcessScroll.frontMountain.style.transform = 'translateZ(' + pageYOffset / 12 + 'px)';
         ProcessScroll.backMountain.style.transform = 'translateY(' + pageYOffset / 2 + 'px)';
 
     }
     else {
 
-        ProcessScroll.frontMountain.style.transform = 'translateZ(' + 1700 / 14 + 'px)';
+        ProcessScroll.frontMountain.style.transform = 'translateZ(' + 1700 / 12 + 'px)';
 
     }
 
