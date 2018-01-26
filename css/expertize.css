@@ -53,9 +53,23 @@
 }
 
 
+.hot-spot {
+    position: absolute;
+    z-index: 1;
+    width: 20px;
+    height:20px;
+    background-color: black;
+    border: 5px solid white;
+    transform: rotate(45deg);
+
+    transition: 0.5s transform;
+}
+.hot-spot.revealed {
+    background-color: yellow;
+}
 
 #mountains-bottom {
     width: 100vw;
     height: 1500px;
-    background-color: gray;
+    background-color: turquoise;
 }

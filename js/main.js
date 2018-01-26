@@ -9,10 +9,22 @@ ProcessScroll.SnapButtons = document.getElementsByClassName('snap-button');
 ProcessScroll.SnapButtons[0].style.backgroundColor = 'yellow';
 ProcessScroll.previousSnapButton = ProcessScroll.SnapButtons[0];
 ProcessScroll.previousSection = 0;
+var parallaxContainer = document.getElementsByClassName('parallax')[0];
+ProcessScroll.parallaxContainerCoords = parallaxContainer.getBoundingClientRect();
 
 GetSection.sections = [500, 900, 1500, 2200, 2800, 3500];
 
+var hotSpots = [{x: 900, y: 100, width: 300}, {x: 600, y: 900, width: 400}, {x: 500, y: 1300, width: 500}];
 
+var hotSpot = null;
+for (var i = 0; i < hotSpots.length; ++i) {
+    hotSpot = document.createElement('div');
+    hotSpot.classList.add('hot-spot');
+    hotSpot.style.left = hotSpots[i].x + 'px';
+    hotSpot.style.top = hotSpots[i].y + 'px';
+
+    parallaxContainer.appendChild(hotSpot);
+}
 
 function GetSection(yPos) {
     var i, j = 0;
@@ -52,7 +64,24 @@ function ProcessScroll() {
         ProcessScroll.previousSection = section;
 
     }
+
+
+    for (var i = 0; i < hotSpots.length; ++i) {
+        if ( (pageYOffset + innerHeight/2) > hotSpots[i].y + ProcessScroll.parallaxContainerCoords.top )
+            RevealHotSpot(document.getElementsByClassName('hot-spot')[i], hotSpots[i].width);
+
+    }
+
 }
+
+function RevealHotSpot(el, targetWidth) {
+    el.style.borderWidth ='1px';
+    el.style.transform = 'rotate(360deg) scale(' + targetWidth / 30 + ', 8)'
+
+    // el.classList.add('revealed');
+}
+
+
 
 function SnapToSection(evt) {
     var btnClassName = evt.target.classList[1];
