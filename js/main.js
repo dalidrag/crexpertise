@@ -67,7 +67,7 @@ function ProcessScroll() {
 
 
     for (var i = 0; i < hotSpots.length; ++i) {
-        if ( (pageYOffset + innerHeight/2) > hotSpots[i].y + ProcessScroll.parallaxContainerCoords.top )
+        if ( (pageYOffset + innerHeight/2 + 100) > hotSpots[i].y + ProcessScroll.parallaxContainerCoords.top )
             RevealHotSpot(document.getElementsByClassName('hot-spot')[i], hotSpots[i].width);
 
     }
@@ -76,7 +76,7 @@ function ProcessScroll() {
 
 function RevealHotSpot(el, targetWidth) {
     el.style.borderWidth ='1px';
-    el.style.transform = 'rotate(360deg) scale(' + targetWidth / 30 + ', 8)'
+    el.style.transform = 'rotate(0deg) scale(' + targetWidth / 30 + ', 8)'
 
     // el.classList.add('revealed');
 }

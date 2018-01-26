@@ -3,7 +3,7 @@
 /*                */
 .parallax {
     position: relative;
-    top: 600px;
+    top: 40vh;
     /*overflow-y: auto;*/
     perspective: 1000px;
 }
@@ -32,7 +32,7 @@
 
 .parallax-layer.back {
     z-index: -2;
-    top: -370px;
+    top: -20vw;
 }
 
 
