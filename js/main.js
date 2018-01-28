@@ -16,17 +16,21 @@ var hotSpots = [{x: 48, y: 4.5, width: 300}, {x: 39, y: 52, width: 400}, {x: 33.
 
 // <editor-fold desc="Initialize hotspots" >
 // Initialize hotspots
-var hotSpot = null;
-var svgBluePrint = document.getElementById('svg-blueprint');
+var svgSquare = null, hotspotContainer = null;
+var svgBluePrint = document.getElementsByClassName('svg-blueprint')[0];
 for (var i = 0; i < hotSpots.length; ++i) {
 
-    hotSpot = svgBluePrint.cloneNode(true);
-    hotSpot.classList.add('hot-spot');
-    hotSpot.id ="svg-visible";
-    hotSpot.style.left = hotSpots[i].x + 'vw';
-    hotSpot.style.top = hotSpots[i].y + 'vw';
+    hotspotContainer = document.createElement('div');
+    hotspotContainer.classList.add('hot-spot');
 
-    parallaxContainer.appendChild(hotSpot);
+    svgSquare = svgBluePrint.cloneNode(true);
+    svgSquare.classList.remove('svg-blueprint');
+    svgSquare.classList.add('svg-visible');
+    hotspotContainer.appendChild(svgSquare);
+    hotspotContainer.style.left = hotSpots[i].x + 'vw';
+    hotspotContainer.style.top = hotSpots[i].y + 'vw';
+
+    parallaxContainer.appendChild(hotspotContainer);
 }
 ProcessScroll.hotSpots = document.getElementsByClassName('hot-spot');
 ProcessScroll.svgRotateAnimations = document.getElementsByClassName('hotspot-animation');

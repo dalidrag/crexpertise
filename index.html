@@ -25,35 +25,36 @@
 
         </div>
 
-        <svg id="svg-blueprint" version="1.1"
+        <svg class="svg-blueprint" version="1.1"
              xmlns="http://www.w3.org/2000/svg"
-             viewBox = "-50 -50 200 200"
+             viewBox = "-40 -40 170 170"
         >
-            <rect class="square" x="10" y="10" width="20" height="20"
+            <rect class="square" x="0" y="0" width="20" height="20"
                   style="stroke: white; stroke-width: 7;"
-                  transform="rotate(45, 20 20)">
+                  transform="rotate(45, 10, 10) translate(10, 10)">
                   <animateTransform attributeName="transform"
-                                  attributeType="XML"
-                                  type="rotate"
-                                  from="45 20 20"
-                                  to="360 20 20"
-                                  dur="1s"
-                                  begin="indefinite"
-                                  fill="freeze"
-                                  class="hotspot-animation"
-                />
+                                      attributeType="XML"
+                                      type="scale"
+                                      from="1"
+                                      to="2"
+                                      dur="1s"
+                                      stroke-width="freeze"
+                                      begin="indefinite"
+                                      class="hotspot-scale-animation"
+                                      fill="freeze"
+                  />
                 <animateTransform attributeName="transform"
                                   attributeType="XML"
-                                  type="scale"
-                                  from="1"
-                                  to="2"
+                                  type="rotate"
+                                  from="45 10 10"
+                                  to="360 10 10"
                                   dur="1s"
-                                  stroke-width="freeze"
                                   begin="indefinite"
-                                  class="hotspot-scale-animation"
-                                  fill="freeze"
+                                  class="hotspot-animation"
                                   additive="sum"
+                                  fill="freeze"
                 />
+
                 <animate
                     attributeName="stroke-width"
                     attributeType="XML"
@@ -64,7 +65,6 @@
                     additive="sum"
                     class="hotspot-stroke-animation"
                 />
-
             </rect>
         </svg>
 

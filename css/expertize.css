@@ -66,11 +66,14 @@
     z-index: 1;
     width: 200px;
     height: 200px;
-
-    transition: width 1.5s, height 1.5s;
 }
+/*.svg-visible {
+    position: absolute;
+    left: -50%;
+    top: -50%;
+}*/
 
-#svg-blueprint {
+.svg-blueprint {
     display: none;
 }
 
