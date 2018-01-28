@@ -27,7 +27,7 @@
 
         <svg id="svg-blueprint" version="1.1"
              xmlns="http://www.w3.org/2000/svg"
-             viewBox = "0 0 40 40"
+             viewBox = "-50 -50 200 200"
         >
             <rect class="square" x="10" y="10" width="20" height="20"
                   style="stroke: white; stroke-width: 7;"
@@ -37,10 +37,34 @@
                                   type="rotate"
                                   from="45 20 20"
                                   to="360 20 20"
-                                  dur="0.8s"
+                                  dur="1s"
                                   begin="indefinite"
+                                  fill="freeze"
                                   class="hotspot-animation"
                 />
+                <animateTransform attributeName="transform"
+                                  attributeType="XML"
+                                  type="scale"
+                                  from="1"
+                                  to="2"
+                                  dur="1s"
+                                  stroke-width="freeze"
+                                  begin="indefinite"
+                                  class="hotspot-scale-animation"
+                                  fill="freeze"
+                                  additive="sum"
+                />
+                <animate
+                    attributeName="stroke-width"
+                    attributeType="XML"
+                    to="3"
+                    dur="1s"
+                    begin="indefinite"
+                    fill="freeze"
+                    additive="sum"
+                    class="hotspot-stroke-animation"
+                />
+
             </rect>
         </svg>
 

@@ -28,7 +28,10 @@ for (var i = 0; i < hotSpots.length; ++i) {
 
     parallaxContainer.appendChild(hotSpot);
 }
-ProcessScroll.svgAnimations = document.getElementsByClassName('hotspot-animation');
+ProcessScroll.hotSpots = document.getElementsByClassName('hot-spot');
+ProcessScroll.svgRotateAnimations = document.getElementsByClassName('hotspot-animation');
+ProcessScroll.svgScaleAnimations = document.getElementsByClassName('hotspot-scale-animation');
+ProcessScroll.svgStrokeAnimations = document.getElementsByClassName('hotspot-stroke-animation');
 ProcessScroll.hotspotAnimated = [];
 for (var i = 0; i < hotSpots.length; ++i) {
     ProcessScroll.hotspotAnimated[i] = false;
@@ -94,7 +97,7 @@ function ProcessScroll() {
     }
 
     // Hotspots
-    var svgAnimation;
+    var svgRotateAnimation, svgScaleAnimation, svgStrokeAnimation;
 
     for (var i = 0; i < hotSpots.length; ++i) {
 
@@ -102,11 +105,15 @@ function ProcessScroll() {
 
         if ( (pageYOffset + innerHeight/2 + 100) > (hotSpots[i].y * innerWidth / 100) + ProcessScroll.parallaxContainerCoords.top ) {
 
-            svgAnimation = ProcessScroll.svgAnimations[i + 1]; // index zero is invisible svg blueprint
+            svgRotateAnimation = ProcessScroll.svgRotateAnimations[i + 1]; // index zero is invisible svg blueprint
+            svgScaleAnimation = ProcessScroll.svgScaleAnimations[i + 1];
+            svgStrokeAnimation = ProcessScroll.svgStrokeAnimations[i+1];
 
             document.getElementsByClassName('square')[i + 1].removeAttribute('transform');
 
-            svgAnimation.beginElement();
+            svgRotateAnimation.beginElement();
+            svgScaleAnimation.beginElement();
+            svgStrokeAnimation.beginElement();
             ProcessScroll.hotspotAnimated[i] = true;
 
             break;
