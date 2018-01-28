@@ -13,18 +13,29 @@ GetSection.sections = [500, 900, 1500, 2200, 2800, 3500];
 // width is in pixels
 var hotSpots = [{x: 48, y: 4.5, width: 300}, {x: 39, y: 52, width: 400}, {x: 33.5, y: 89, width: 500}];
 
+
+// <editor-fold desc="Initialize hotspots" >
 // Initialize hotspots
 var hotSpot = null;
+var svgBluePrint = document.getElementById('svg-blueprint');
 for (var i = 0; i < hotSpots.length; ++i) {
 
-    hotSpot = document.createElement('div');
+    hotSpot = svgBluePrint.cloneNode(true);
     hotSpot.classList.add('hot-spot');
+    hotSpot.id ="svg-visible";
     hotSpot.style.left = hotSpots[i].x + 'vw';
     hotSpot.style.top = hotSpots[i].y + 'vw';
 
     parallaxContainer.appendChild(hotSpot);
 }
+ProcessScroll.svgAnimations = document.getElementsByClassName('hotspot-animation');
+ProcessScroll.hotspotAnimated = [];
+for (var i = 0; i < hotSpots.length; ++i) {
+    ProcessScroll.hotspotAnimated[i] = false;
+}
+//</editor-fold>
 
+//<editor-fold desc="Initialize snapping buttons">
 // Initialize snapping buttons
 var snappingButton = null;
 for (i = 0; i < GetSection.sections.length; ++i ) {
@@ -40,7 +51,7 @@ for (i = 0; i < GetSection.sections.length; ++i ) {
 ProcessScroll.SnapButtons = document.getElementsByClassName('snap-button');
 ProcessScroll.SnapButtons[0].style.backgroundColor = 'yellow';
 ProcessScroll.previousSnapButton = ProcessScroll.SnapButtons[0];
-
+//</editor-fold>
 
 function GetSection(yPos) {
     var i, j;
@@ -57,6 +68,7 @@ function GetSection(yPos) {
 
 function ProcessScroll() {
 
+    // Parallax effect
     if (pageYOffset < 1700) {
 
         ProcessScroll.frontMountain.style.transform = 'translateZ(' + pageYOffset / 12 + 'px)';
@@ -69,7 +81,7 @@ function ProcessScroll() {
 
     }
 
-
+    // Snapping buttons
     var section = GetSection(pageYOffset);
 
     if (section !== ProcessScroll.previousSection) {
@@ -81,19 +93,32 @@ function ProcessScroll() {
 
     }
 
+    // Hotspots
+    var svgAnimation;
 
     for (var i = 0; i < hotSpots.length; ++i) {
 
-        if ( (pageYOffset + innerHeight/2 + 100) > (hotSpots[i].y * innerWidth / 100) + ProcessScroll.parallaxContainerCoords.top )
-            RevealHotSpot(document.getElementsByClassName('hot-spot')[i], hotSpots[i].width);
+        if (ProcessScroll.hotspotAnimated[i]) continue;
+
+        if ( (pageYOffset + innerHeight/2 + 100) > (hotSpots[i].y * innerWidth / 100) + ProcessScroll.parallaxContainerCoords.top ) {
+
+            svgAnimation = ProcessScroll.svgAnimations[i + 1]; // index zero is invisible svg blueprint
+
+            document.getElementsByClassName('square')[i + 1].removeAttribute('transform');
+
+            svgAnimation.beginElement();
+            ProcessScroll.hotspotAnimated[i] = true;
+
+            break;
+
+        }
 
     }
 
 }
 
 function RevealHotSpot(el, targetWidth) {
-    el.style.borderWidth ='1px';
-    el.style.transform = 'rotate(0deg) scale(' + targetWidth / 30 + ', 8)'
+    // el.style.transform = 'rotate(0deg) scale(' + targetWidth / 30 + ', 8)'
 
     // el.classList.add('revealed');
 }
