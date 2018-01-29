@@ -22,13 +22,51 @@
 
         <!-- Add your site or application content here -->
         <div id="snap-widget">
-            <div class="snap-button btn0"></div>
-            <div class="snap-button btn1"></div>
-            <div class="snap-button btn2"></div>
-            <div class="snap-button btn3"></div>
-            <div class="snap-button btn4"></div>
-            <div class="snap-button btn5"></div>
+
         </div>
+
+        <svg class="svg-blueprint" version="1.1"
+             xmlns="http://www.w3.org/2000/svg"
+             viewBox = "-40 -40 370 370"
+        >
+            <rect class="square" x="0" y="0" width="20" height="20"
+                  style="stroke: white; stroke-width: 7;"
+                  transform="rotate(45, 10, 10) translate(10, 10)">
+                <animate
+                    attributeName="stroke-width"
+                    attributeType="XML"
+                    to=""
+                    dur="1s"
+                    begin="indefinite"
+                    additive="sum"
+                    fill="freeze"
+                    class="hotspot-stroke-animation"
+                />
+                <!-- 'to' attribute will be actually set from JavaScript -->
+                  <animateTransform attributeName="transform"
+                                      attributeType="XML"
+                                      type="scale"
+                                      from="1"
+                                      to="1"
+                                      dur="1s"
+                                      stroke-width="freeze"
+                                      begin="indefinite"
+                                      class="hotspot-scale-animation"
+                                      fill="freeze"
+                  />
+                <animateTransform attributeName="transform"
+                                  attributeType="XML"
+                                  type="rotate"
+                                  from="45 10 10"
+                                  to="360 10 10"
+                                  dur="1s"
+                                  begin="indefinite"
+                                  class="hotspot-animation"
+                                  additive="sum"
+                                  fill="freeze"
+                />
+            </rect>
+        </svg>
 
         <div class="parallax" >
             <div class="parallax-layer front">

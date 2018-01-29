@@ -1,0 +1,21 @@
+<?xml version="1.0" ?>
+
+<svg version="1.1"
+     xmlns="http://www.w3.org/2000/svg"
+     viewBox = "0 0 40 40"
+>
+    <rect x="10" y="10" width="20" height="20"
+          style="stroke: white; stroke-width: 7;"
+          transform="rotate(45, 20 20)">
+          <animateTransform attributeName="transform"
+                          attributeType="XML"
+                          type="rotate"
+                          from="0 20 20"
+                          to="360 20 20"
+                          dur="10s"
+                          begin="indefinite"
+                          repeatCount="indefinite"
+                          class="hotspot-animation"
+                          />
+    </rect>
+</svg>

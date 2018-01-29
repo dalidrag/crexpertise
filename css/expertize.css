@@ -5,7 +5,7 @@
     position: relative;
     top: 40vh;
     /*overflow-y: auto;*/
-    perspective: 1000px;
+    perspective: 100vw;
 }
 
 .parallax-layer {
@@ -16,9 +16,9 @@
     width: 100vw;
     height: 100vw;
 }
-.parallax-layer.back > .mountain {
+/*parallax-layer.back > .mountain {
     width: 100vw;
-}
+}*/
 
 .parallax-layer.front {
     z-index: -1;
@@ -58,23 +58,27 @@
 }
 
 
+/*                 */
+/* Hotspot rules   */
+/*                 */
 .hot-spot {
     position: absolute;
     z-index: 1;
-    width: 20px;
-    height:20px;
-    background-color: black;
-    border: 5px solid white;
-    transform: rotate(45deg);
-
-    transition: 0.5s transform;
+    width: 400px;
+    height: 400px;
 }
-.hot-spot.revealed {
-    background-color: yellow;
+/*.svg-visible {
+    position: absolute;
+    left: -50%;
+    top: -50%;
+}*/
+
+.svg-blueprint {
+    display: none;
 }
 
 #mountains-bottom {
     width: 100vw;
-    height: 1500px;
+    height: 80vw;
     background-color: turquoise;
 }
