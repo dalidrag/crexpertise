@@ -1,23 +1,54 @@
+jQuery.easing.def = "easeOutQuint";
+
+
+
 window.addEventListener('scroll', ProcessScroll, false);
 
+
+
+// For parallax scroll
 ProcessScroll.frontMountain = document.querySelector('.parallax-layer.front');
 ProcessScroll.backMountain = document.querySelector('.parallax-layer.back');
-
-ProcessScroll.previousSection = 0;
 var parallaxContainer = document.getElementsByClassName('parallax')[0];
 ProcessScroll.parallaxContainerCoords = parallaxContainer.getBoundingClientRect();
 
-// Snapping points in the percentage of the screen height
-GetSection.sections = [40, 60, 90, 130, 170, 210];
 
+
+//
+// For snapping buttons
+//
+// Snapping points in the percentage of the screen height
+GetSectionNumber.sections = [30, 60, 90, 130, 150, 160];
+//<editor-fold desc="Initialize snapping buttons">
+// Initialize snapping buttons
+ProcessScroll.previousSection = 0;
+var snappingButton = null;
+for (i = 0; i < GetSectionNumber.sections.length; ++i ) {
+
+    snappingButton = document.createElement('div');
+    snappingButton.classList.add('snap-button');
+    snappingButton.classList.add('btn' + i);
+    snappingButton.addEventListener('click', SnapToSection, false);
+
+    document.getElementById('snap-widget').appendChild(snappingButton);
+
+}
+ProcessScroll.SnapButtons = document.getElementsByClassName('snap-button');
+ProcessScroll.SnapButtons[0].style.backgroundColor = 'yellow';
+ProcessScroll.previousSnapButton = ProcessScroll.SnapButtons[0];
+//</editor-fold>
+
+
+
+//
+// For hotspots
+//
 // x and y are in the percentage of the main mountain width and height
 // width is in pixels
 var hotSpots = [{x: 48, y: 4.5, width: 200}, {x: 39.5, y: 46.5, width: 300}, {x: 36, y: 74.5, width: 200}];
-
-
 // <editor-fold desc="Initialize hotspots" >
 // Initialize hotspots
-var svgSquare = null, hotspotContainer = null;
+var svgSquare = null, svgRect = null, hotspotContainer = null;
 var svgBluePrint = document.getElementsByClassName('svg-blueprint')[0];
 for (var i = 0; i < hotSpots.length; ++i) {
 
@@ -31,6 +62,11 @@ for (var i = 0; i < hotSpots.length; ++i) {
     svgSquare.style.left = hotSpots[i].x - 2.5 + '%';
     svgSquare.style.top = hotSpots[i].y - 3 + '%';
     hotspotContainer.appendChild(svgSquare);
+
+    svgRect = document.getElementsByClassName('square')[i + 1];
+    svgRect.id = 'hotspot' + i;
+    svgRect.addEventListener('click', HotspotClickHandler, false);
+
 }
 ProcessScroll.hotSpots = document.getElementsByClassName('hot-spot');
 ProcessScroll.svgRotateAnimations = document.getElementsByClassName('hotspot-animation');
@@ -46,36 +82,27 @@ for (var i = 0; i < hotSpots.length; ++i) {
 }
 //</editor-fold>
 
-//<editor-fold desc="Initialize snapping buttons">
-// Initialize snapping buttons
-var snappingButton = null;
-for (i = 0; i < GetSection.sections.length; ++i ) {
 
-    snappingButton = document.createElement('div');
-    snappingButton.classList.add('snap-button');
-    snappingButton.classList.add('btn' + i);
-    snappingButton.addEventListener('click', SnapToSection, false);
 
-    document.getElementById('snap-widget').appendChild(snappingButton);
-
-}
-ProcessScroll.SnapButtons = document.getElementsByClassName('snap-button');
-ProcessScroll.SnapButtons[0].style.backgroundColor = 'yellow';
-ProcessScroll.previousSnapButton = ProcessScroll.SnapButtons[0];
-//</editor-fold>
-
-function GetSection(yPos) {
+/**
+ * Returns section number given the scroll offset of the browser window
+ * @param yPos Scroll offset of the browser window
+ * @returns {section index}
+ */
+function GetSectionNumber(yPos) {
     var i, j;
 
-    for ( i = 0; i < GetSection.sections.length; ++i ) {
-        if (yPos <= GetSection.sections[i] * innerWidth / 100) break;
+    for ( i = 0; i < GetSectionNumber.sections.length; ++i ) {
+        if (yPos <= GetSectionNumber.sections[i] * innerWidth / 100) break;
     }
-    for ( j = GetSection.sections.length - 1; j > i; --j ) {
-        if (yPos > GetSection.sections[j] * innerWidth / 100) return j;
+    for ( j = GetSectionNumber.sections.length - 1; j > i; --j ) {
+        if (yPos > GetSectionNumber.sections[j] * innerWidth / 100) return j;
     }
 
     return j;
 }
+
+
 
 function ProcessScroll() {
 
@@ -93,7 +120,7 @@ function ProcessScroll() {
     }
 
     // Snapping buttons
-    var section = GetSection(pageYOffset);
+    var section = GetSectionNumber(pageYOffset);
 
     if (section !== ProcessScroll.previousSection) {
 
@@ -105,27 +132,13 @@ function ProcessScroll() {
     }
 
     // Hotspots
-    var svgRotateAnimation, svgScaleAnimation, svgStrokeAnimation;
-    var aSquare;
-
     for (var i = 0; i < hotSpots.length; ++i) {
 
         if (ProcessScroll.hotspotAnimated[i]) continue;
 
         if ( (pageYOffset + innerHeight/2) > (hotSpots[i].y * innerWidth / 100) + ProcessScroll.parallaxContainerCoords.top ) {
 
-            svgRotateAnimation = ProcessScroll.svgRotateAnimations[i + 1]; // index zero is invisible svg blueprint
-            svgScaleAnimation = ProcessScroll.svgScaleAnimations[i + 1];
-            svgStrokeAnimation = ProcessScroll.svgStrokeAnimations[i+1];
-
-            aSquare = document.getElementsByClassName('square')[i + 1];
-            aSquare.removeAttribute('transform');
-            aSquare.classList.add('revealed');
-
-            svgRotateAnimation.beginElement();
-            svgScaleAnimation.beginElement();
-            svgStrokeAnimation.beginElement();
-            ProcessScroll.hotspotAnimated[i] = true;
+            RevealHotSpot(document.getElementsByClassName('square')[i + 1], i);
 
             break;
 
@@ -135,45 +148,51 @@ function ProcessScroll() {
 
 }
 
-function RevealHotSpot(el, targetWidth) {
-    // el.style.transform = 'rotate(0deg) scale(' + targetWidth / 30 + ', 8)'
 
-    // el.classList.add('revealed');
+
+/**
+ * Triggers animation that opens a hotspot
+ * @param el  svg element to start animating
+ * @param index  index of element in the array of all SVG hotspots on the page, including blueprint at index 0
+ */
+function RevealHotSpot(el, index) {
+
+    var svgRotateAnimation, svgScaleAnimation, svgStrokeAnimation;
+
+    el.removeAttribute('transform');
+    el.classList.add('revealed');
+
+    svgRotateAnimation = ProcessScroll.svgRotateAnimations[index + 1]; // index zero is invisible svg blueprint
+    svgScaleAnimation = ProcessScroll.svgScaleAnimations[index + 1];
+    svgStrokeAnimation = ProcessScroll.svgStrokeAnimations[index + 1];
+
+    svgRotateAnimation.beginElement();
+    svgScaleAnimation.beginElement();
+    svgStrokeAnimation.beginElement();
+    ProcessScroll.hotspotAnimated[index] = true;
+
 }
 
 
 
+function HotspotClickHandler(evt) {
+
+    var index = +evt.target.id[7]; // Get index of hotspot
+    RevealHotSpot(evt.target, index);
+
+}
+
+
+/**
+ * Scrolls to section on snapping button click
+ * @param evt
+ */
 function SnapToSection(evt) {
+
     evt.stopPropagation();
     var btnClassName = evt.target.classList[1];
 
-    // TODO for Chrome document.documentElement => document.body
-    ScrollTo(document.documentElement, GetSection.sections[btnClassName[3]] * innerWidth / 100, 800);
+    $("html, body").animate({ scrollTop: GetSectionNumber.sections[btnClassName[3]] * innerWidth / 100 + 'px' }, 800);
+
 }
 
-function ScrollTo(element, to, duration) {
-    var start = element.scrollTop,
-        change = to - start,
-        currentTime = 0,
-        increment = 20;
-
-    var animateScroll = function(){
-        currentTime += increment;
-        element.scrollTop = Math.easeInOutQuad(currentTime, start, change, duration);
-        if(currentTime < duration) {
-            setTimeout(animateScroll, increment);
-        }
-    };
-    animateScroll();
-}
-
-//t = current time
-//b = start value
-//c = change in value
-//d = duration
-Math.easeInOutQuad = function (t, b, c, d) {
-    t /= d/2;
-    if (t < 1) return c/2*t*t + b;
-    t--;
-    return -c/2 * (t*(t-2) - 1) + b;
-};

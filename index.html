@@ -22,9 +22,11 @@
 
         <!-- Add your site or application content here -->
         <div id="snap-widget">
-
+            <!-- Snapping buttons will be inserted here by JavaScript -->
         </div>
 
+        <!-- Template for hotspot buttons in SVG -->
+        <!-- SVG SMIL animation is used; refer to: https://css-tricks.com/guide-svg-animations-smil/ -->
         <svg class="svg-blueprint" version="1.1"
              xmlns="http://www.w3.org/2000/svg"
              viewBox = "-40 -40 370 370"
@@ -68,13 +70,15 @@
             </rect>
         </svg>
 
+        <!-- Parallaxing background mountains -->
         <div class="parallax" >
             <div class="parallax-layer front">
+                <!-- Following elements will grow and adjust theirs vertical movement as user scrolls down -->
                 <img class="mountain-path" src="img/mountain-path.png" />
                 <img class="mountain" src="img/main_mountains.png" />
                 <div id="main-mountain">
                 </div>
-                <div id="mountains-bottom"></div>
+                <div id="mountains-bottom"></div> <!-- This section will not grow as users scrolls down -->
             </div>
             <div class="parallax-layer back">
                 <img class="mountain" src="img/horizon_mountains.png" />
@@ -82,11 +86,14 @@
         </div>
 
 
+
         <script src="js/vendor/modernizr-3.5.0.min.js"></script>
+        <script src="js/vendor/jquery-3.2.1.min.js" ></script>
+        <script src="js/vendor/jquery.easing.1.3.js" ></script>
+
         <script src="js/main.js"></script>
 
         <!--
-        <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
         <script>window.jQuery || document.write('<script src="js/vendor/jquery-3.2.1.min.js"><\/script>')</script>
         <script src="js/plugins.js"></script>
         <script src="js/main.js"></script> -->

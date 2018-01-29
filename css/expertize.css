@@ -3,7 +3,7 @@
 /*                */
 .parallax {
     position: relative;
-    top: 40vh;
+    top: 30vw;
     /*overflow-y: auto;*/
     perspective: 100vw;
 }
@@ -16,9 +16,6 @@
     width: 100vw;
     height: 100vw;
 }
-/*parallax-layer.back > .mountain {
-    width: 100vw;
-}*/
 
 .parallax-layer.front {
     z-index: -1;
@@ -44,17 +41,19 @@
 }
 
 
+
 /*                 */
 /* Snapping widget */
 /*                 */
 #snap-widget {
     position: fixed;
     z-index: 1;
-    transform: translateZ(0);
+    transform: translateZ(0); /* Performance hack */
 
     top: 30%;
     right: 20px;
 }
+
 .snap-button {
     width: 12px;
     height: 12px;
@@ -66,13 +65,18 @@
 }
 
 
+
 /*                 */
 /* Hotspot rules   */
 /*                 */
+
+/* Brings hotspots to front */
 .hot-spot {
     position: absolute;
     z-index: 1;
 }
+
+/* Define size of SVG box */
 .svg-visible {
     position: absolute;
     width: 20vw;
@@ -85,17 +89,26 @@
     display: none;
 }
 
+/* These classes targets rectangle within SVG */
 .square {
     filter: drop-shadow( -1px 1px 1px transparent );
+    cursor: pointer;
 }
+
 .square.revealed {
     filter: drop-shadow( -1px 1px 1px #000 );
+
     transition-property: filter;
     transition-duration: 0.4s;
     transition-timing-function: ease-in;
     transition-delay: 0.3s;
+
+    cursor: default;
 }
 
+
+
+/* Part of the page bellow the main mountain */
 #mountains-bottom {
     width: 100vw;
     height: 80vw;
