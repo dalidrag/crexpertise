@@ -7,11 +7,12 @@ ProcessScroll.previousSection = 0;
 var parallaxContainer = document.getElementsByClassName('parallax')[0];
 ProcessScroll.parallaxContainerCoords = parallaxContainer.getBoundingClientRect();
 
-GetSection.sections = [500, 900, 1500, 2200, 2800, 3500];
+// Snapping points in the percentage of the screen height
+GetSection.sections = [40, 60, 90, 130, 170, 210];
 
 // x and y are in the percentage of the screen width, relative to mountain top
 // width is in pixels
-var hotSpots = [{x: 48, y: 4.5, width: 300}, {x: 39, y: 52, width: 400}, {x: 33.5, y: 89, width: 500}];
+var hotSpots = [{x: 48, y: 4.5, width: 200}, {x: 39, y: 52, width: 300}, {x: 33.5, y: 89, width: 200}];
 
 
 // <editor-fold desc="Initialize hotspots" >
@@ -26,6 +27,7 @@ for (var i = 0; i < hotSpots.length; ++i) {
     svgSquare = svgBluePrint.cloneNode(true);
     svgSquare.classList.remove('svg-blueprint');
     svgSquare.classList.add('svg-visible');
+
     hotspotContainer.appendChild(svgSquare);
     hotspotContainer.style.left = hotSpots[i].x + 'vw';
     hotspotContainer.style.top = hotSpots[i].y + 'vw';
@@ -37,8 +39,12 @@ ProcessScroll.svgRotateAnimations = document.getElementsByClassName('hotspot-ani
 ProcessScroll.svgScaleAnimations = document.getElementsByClassName('hotspot-scale-animation');
 ProcessScroll.svgStrokeAnimations = document.getElementsByClassName('hotspot-stroke-animation');
 ProcessScroll.hotspotAnimated = [];
+ProcessScroll.svgScaleTransforms = document.getElementsByClassName('hotspot-scale-animation');
+ProcessScroll.svgStrokeTransforms = document.getElementsByClassName('hotspot-stroke-animation');
 for (var i = 0; i < hotSpots.length; ++i) {
     ProcessScroll.hotspotAnimated[i] = false;
+    ProcessScroll.svgScaleTransforms[i + 1].setAttribute('to', String(hotSpots[i].width/28));
+    ProcessScroll.svgStrokeTransforms[i + 1].setAttribute('to', String(7/(hotSpots[i].width/28)));
 }
 //</editor-fold>
 
@@ -64,10 +70,10 @@ function GetSection(yPos) {
     var i, j;
 
     for ( i = 0; i < GetSection.sections.length; ++i ) {
-        if (yPos <= GetSection.sections[i]) break;
+        if (yPos <= GetSection.sections[i] * innerHeight / 100) break;
     }
     for ( j = GetSection.sections.length - 1; j > i; --j ) {
-        if (yPos > GetSection.sections[j]) return j;
+        if (yPos > GetSection.sections[j] * innerHeight / 100) return j;
     }
 
     return j;
@@ -78,13 +84,13 @@ function ProcessScroll() {
     // Parallax effect
     if (pageYOffset < 1700) {
 
-        ProcessScroll.frontMountain.style.transform = 'translateZ(' + pageYOffset / 12 + 'px)';
+        ProcessScroll.frontMountain.style.transform = 'translateZ(' + pageYOffset / 14 + 'px)';
         ProcessScroll.backMountain.style.transform = 'translateY(' + pageYOffset / 2 + 'px)';
 
     }
     else {
 
-        ProcessScroll.frontMountain.style.transform = 'translateZ(' + 1700 / 12 + 'px)';
+        ProcessScroll.frontMountain.style.transform = 'translateZ(' + 1700 / 14 + 'px)';
 
     }
 
@@ -107,7 +113,7 @@ function ProcessScroll() {
 
         if (ProcessScroll.hotspotAnimated[i]) continue;
 
-        if ( (pageYOffset + innerHeight/2 + 100) > (hotSpots[i].y * innerWidth / 100) + ProcessScroll.parallaxContainerCoords.top ) {
+        if ( (pageYOffset + innerHeight/2) > (hotSpots[i].y * innerWidth / 100) + ProcessScroll.parallaxContainerCoords.top ) {
 
             svgRotateAnimation = ProcessScroll.svgRotateAnimations[i + 1]; // index zero is invisible svg blueprint
             svgScaleAnimation = ProcessScroll.svgScaleAnimations[i + 1];
@@ -141,7 +147,7 @@ function SnapToSection(evt) {
     var btnClassName = evt.target.classList[1];
 
     // TODO for Chrome document.documentElement => document.body
-    ScrollTo(document.documentElement, GetSection.sections[btnClassName[3]], 800);
+    ScrollTo(document.documentElement, GetSection.sections[btnClassName[3]] * innerHeight / 100, 800);
 }
 
 function ScrollTo(element, to, duration) {
