@@ -106,6 +106,7 @@ function ProcessScroll() {
 
     // Hotspots
     var svgRotateAnimation, svgScaleAnimation, svgStrokeAnimation;
+    var aSquare;
 
     for (var i = 0; i < hotSpots.length; ++i) {
 
@@ -117,7 +118,9 @@ function ProcessScroll() {
             svgScaleAnimation = ProcessScroll.svgScaleAnimations[i + 1];
             svgStrokeAnimation = ProcessScroll.svgStrokeAnimations[i+1];
 
-            document.getElementsByClassName('square')[i + 1].removeAttribute('transform');
+            aSquare = document.getElementsByClassName('square')[i + 1];
+            aSquare.removeAttribute('transform');
+            aSquare.classList.add('revealed');
 
             svgRotateAnimation.beginElement();
             svgScaleAnimation.beginElement();
