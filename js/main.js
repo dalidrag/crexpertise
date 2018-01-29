@@ -68,10 +68,10 @@ function GetSection(yPos) {
     var i, j;
 
     for ( i = 0; i < GetSection.sections.length; ++i ) {
-        if (yPos <= GetSection.sections[i] * innerHeight / 100) break;
+        if (yPos <= GetSection.sections[i] * innerWidth / 100) break;
     }
     for ( j = GetSection.sections.length - 1; j > i; --j ) {
-        if (yPos > GetSection.sections[j] * innerHeight / 100) return j;
+        if (yPos > GetSection.sections[j] * innerWidth / 100) return j;
     }
 
     return j;
@@ -148,7 +148,7 @@ function SnapToSection(evt) {
     var btnClassName = evt.target.classList[1];
 
     // TODO for Chrome document.documentElement => document.body
-    ScrollTo(document.documentElement, GetSection.sections[btnClassName[3]] * innerHeight / 100, 800);
+    ScrollTo(document.documentElement, GetSection.sections[btnClassName[3]] * innerWidth / 100, 800);
 }
 
 function ScrollTo(element, to, duration) {
