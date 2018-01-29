@@ -10,9 +10,9 @@ ProcessScroll.parallaxContainerCoords = parallaxContainer.getBoundingClientRect(
 // Snapping points in the percentage of the screen height
 GetSection.sections = [40, 60, 90, 130, 170, 210];
 
-// x and y are in the percentage of the screen width, relative to mountain top
+// x and y are in the percentage of the main mountain width and height
 // width is in pixels
-var hotSpots = [{x: 48, y: 4.5, width: 200}, {x: 39, y: 52, width: 300}, {x: 33.5, y: 89, width: 200}];
+var hotSpots = [{x: 48, y: 4.5, width: 200}, {x: 39.5, y: 46.5, width: 300}, {x: 36, y: 74.5, width: 200}];
 
 
 // <editor-fold desc="Initialize hotspots" >
@@ -21,18 +21,16 @@ var svgSquare = null, hotspotContainer = null;
 var svgBluePrint = document.getElementsByClassName('svg-blueprint')[0];
 for (var i = 0; i < hotSpots.length; ++i) {
 
-    hotspotContainer = document.createElement('div');
+    hotspotContainer = document.getElementById('main-mountain');
     hotspotContainer.classList.add('hot-spot');
 
     svgSquare = svgBluePrint.cloneNode(true);
     svgSquare.classList.remove('svg-blueprint');
     svgSquare.classList.add('svg-visible');
 
+    svgSquare.style.left = hotSpots[i].x - 2.5 + '%';
+    svgSquare.style.top = hotSpots[i].y - 3 + '%';
     hotspotContainer.appendChild(svgSquare);
-    hotspotContainer.style.left = hotSpots[i].x + 'vw';
-    hotspotContainer.style.top = hotSpots[i].y + 'vw';
-
-    parallaxContainer.appendChild(hotspotContainer);
 }
 ProcessScroll.hotSpots = document.getElementsByClassName('hot-spot');
 ProcessScroll.svgRotateAnimations = document.getElementsByClassName('hotspot-animation');

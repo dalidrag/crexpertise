@@ -12,7 +12,7 @@
     position: absolute;
 }
 
-.parallax-layer > .mountain {
+.parallax-layer .mountain {
     width: 100vw;
     height: 100vw;
 }
@@ -33,6 +33,14 @@
 .parallax-layer.back {
     z-index: -2;
     top: -20vw;
+}
+
+#main-mountain {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    height: 100vw;
 }
 
 
@@ -64,17 +72,21 @@
 .hot-spot {
     position: absolute;
     z-index: 1;
-    width: 400px;
-    height: 400px;
 }
-/*.svg-visible {
+.svg-visible {
     position: absolute;
-    left: -50%;
-    top: -50%;
-}*/
+    width: 20vw;
+    height: 20vw;
+    min-width: 15rem;
+    min-height: 15rem;
+}
 
 .svg-blueprint {
     display: none;
+}
+
+.square {
+    box-shadow: -5px 10px 8px #888888;
 }
 
 #mountains-bottom {
